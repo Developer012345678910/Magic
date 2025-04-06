@@ -1,0 +1,398 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            font-size: 3vh;
+            color: rgb(255, 0, 255);
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 100;
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: rgb(0, 0, 50);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-right: 2.5vh;
+            padding-left: 2.5vh;
+            position: fixed;
+            top: 0;
+            width: 100vw;
+            height: 10vh;
+        }
+
+        h1 {
+            font-size: 5vh;
+            font-weight: bold;
+            text-shadow: 1px 1px 10px rgb(255, 0, 255);
+            background-color: rgb(0, 0, 50);
+            box-shadow: 0px 0px 2px 5px rgb(0, 0, 50);
+            border-radius: 10px;
+        }
+
+        a {
+            text-decoration: underline;
+            color: rgb(0, 255, 255);
+        }
+
+        sup {
+            font-size: 2.5vh;
+            text-shadow: 1px 1px 10px rgb(255, 0, 255);
+        }
+
+        .content {
+            width: 100vw;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5vh;
+            margin-top: 10vh;
+            padding: 2.5vh;
+            margin-bottom: 10vh;
+        }
+
+        .question {
+            max-width: 70vw;
+            padding: 2.5vh;
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            flex-direction: column;
+            border-radius: 10px;
+            box-shadow: 0px 0px 5px 2px rgb(0, 255, 255);
+            color: rgb(0, 0, 50);
+            background-color: rgb(0, 255, 255);
+            align-self: end;
+        }
+
+        .answer {
+            max-width: 70vw;
+            padding: 2.5vh;
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            flex-direction: column;
+            border-radius: 10px;
+            box-shadow: 0px 0px 5px 2px rgb(255, 0, 255);
+            color: rgb(0, 0, 50);
+            background-color: rgb(255, 0, 255);
+            align-self: start;
+        }
+
+        input {
+            width: 80vw;
+            height: 5vh;
+            border-radius: 10px;
+            color: rgb(0, 255, 255);
+            border: 2px solid rgb(0, 255, 255);
+            background-color: rgb(0, 0, 50);
+            box-shadow: 0px 0px 5px 2px rgb(0, 255, 255);
+        }
+
+        button {
+            width: 5vh;
+            height: 5vh;
+            background-color: rgb(0, 255, 255);
+            box-shadow: 0px 0px 5px 2px rgb(0, 255, 255);
+            color: rgb(0, 0, 50);
+            border: hidden;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            gap: 2.5vh;
+            width: 100vw;
+            height: 10vh;
+        }
+
+        #iframe {
+            width: 100vw;
+            height: 90vh;
+            position: fixed;
+            top: 10vh;
+            border-radius: 10px 10px 0px 0px;
+            display: none;
+            background-color: rgb(255, 0, 255);
+        }
+
+        .close {
+            position: fixed;
+            top: 12.5vh;
+            right: 2.5vh;
+            display: none;
+        }
+
+        a {
+            width: 60vw;
+            height: 5vh;
+            background-color: rgb(0, 255, 255);
+            border-radius: 10px;
+            color: rgb(0, 0, 50);
+            margin-top: 2.5vh;
+            margin-bottom: 2.5vh;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    <link rel="manifest" href="../manifest.json">
+    <title>Magic</title>
+</head>
+<body>
+    <header>
+        <h1>Magic<sup>Beta</sup></h1>
+    </header>
+    <div id="chat" class="content">
+    </div>
+    <footer>
+        <input id="message" type="text">
+        <button onclick="posteQuestion();">></button>
+    </footer>
+    <embed src="https://www.swisscows.de" frameborder="0" id="iframe"></embed>
+    <button class="close" id="close_button" onclick="closeWindow();">x</button>
+    <script>
+    function askMagic(question) {
+        question = question.toLowerCase();
+        let answer = "";
+        if (question.includes("bitte")) {
+            answer = answer + "Okay!";
+        }
+        if (question.includes("wetter")) {
+            if (question.includes("heut")) {
+                answer = answer + " " + "Aktuell habe ich leider noch keinen Zugriff auf das heutige Wetter!";
+            } else if (question.includes("morg")) {
+                answer = answer + " " + "Aktuell habe ich leider noch keinen Zugriff auf das morgige Wetter!";
+            } else if (question.includes("gest")) {
+                answer = answer + " " + "Aktuell habe ich leider noch keinen Zugriff auf das gestrige Wetter!";
+            } else {
+                answer = answer + " " + "Aktuell habe ich leider noch keinen Zugriff auf das Wetter!";
+            }
+        }
+        if (question.includes("hi") || question.includes("hallo") || question.includes("moin")  || question.includes("guten tag") || question.includes("guten mittag") || question.includes("guten abend") || question.includes("servus") || question.includes("hey")) {
+            answer += "Hallo, ich bin Magic!";
+        }
+        if (question.includes("emil")) {
+            answer = answer + " " + "Emil L., geboren im Jahr 2012 und lebhaft in Aachen, besitzt eine sehr selbstbewussten Charakter. Er geht auf das städtische Gymnasium Sankt Leonhard, wo er bereits in den ersten 2 Jahren seiner schulischen Karriere den Lesewettbewerb gewann! Des weiteren ist er sehr interessiert an Technologien wie ChatGPT und baut diese stetig in seinen Alltag mit ein. Bekannt ist Emil L. auch durch seine regelmäßige Teilnahme an Wassersportwettbewerben seiner Schule.";
+        }
+        if (question.includes("gute nacht")) {
+            answer = answer + " " + "Gute Nacht!";
+        }
+        if (question.includes("rechn")) {
+            answer = answer + " " + "Das Ergebnis lautet: " + calculate(question);
+        }
+        if (question.includes("uhr") || question.includes("zeit")) {
+            answer = answer + " " + "Es ist " + new Date().getHours() + ":" + new Date().getMinutes() + "Uhr.";
+        }
+        if (question.includes("dank")) {
+            answer = answer + " " + "Kein Problem! Ich helfe gerne!";
+        }
+        if (question.includes("ok") || question.includes("okay")) {
+            answer = answer + " " + "Kein Problem!";
+        }
+        if (question.includes("mir") || question.includes("mich") || question.includes("ich") || question.includes("mein")) {
+            if (question.includes("geht") || question.includes("laun")|| question.includes("fuehl") || question.includes("fühl")) {
+                if (question.includes("gut") && ! question.includes("nicht") || question.includes("super") || question.includes("toll") || question.includes("gesund")) {
+                    answer = answer + " " + "Das freut mich!";
+                } else {
+                    answer = answer + " " + "Oh, das tut mir leid! Villeicht geht es dir nach einem Witz besser!";
+                    answer = answer + " " + jocke();
+                }
+            }
+           if (question.includes("muede") || question.includes("müde")) {
+              answer = answer + " Gute Nacht!";
+           }
+        }
+        if (question.includes("dir") || question.includes("dich") || question.includes("du") || question.includes("dein")) {
+            if (question.includes("geht") || question.includes("laun")|| question.includes("fuehl") || question.includes("fühl")) {
+                answer = answer + " " + "Mir geht es gut und dir?";
+            }
+            if (question.includes("bist")) {
+                answer = answer + " " + "Ich bin doch nur ein ChatBot!";
+            }
+        }
+        if (question.includes("witz")) {
+            answer = answer + " " + jocke();
+        }
+        if (question.includes("suche") || question.includes("google") || question.includes("swiss")  || question.includes("cows")) {
+            answer = answer + " " + "Hier ist der Link zu SwissCows: <a  onload='openWindow(`https://www.swisscows.com`);'  onclick='openWindow(`https://www.swisscows.com`);'>SwissCows</a>";
+        }
+        if (question.includes("untis")) {
+            answer = answer + " " + "Hier ist der Link zu WebUntis: <a onload='openWindow(`https://kephiso.webuntis.com/WebUntis`);' onclick='openWindow(`https://kephiso.webuntis.com/WebUntis`);'>WebUntis</a>";
+        }
+        if (question.includes("cloud")) {
+            answer = answer + " " + "Hier ist der Link zur Ucloud: <a onload='openWindow(`https://ucloud4schools.de/167368/index.php/login?redirect_url=/167368/index.php/apps/dashboard/`);' onclick='openWindow(`https://ucloud4schools.de/167368/index.php/login?redirect_url=/167368/index.php/apps/dashboard/`);'>Ucloud4Schools</a>";
+        }
+        if (question.includes("moodle")) {
+            answer = answer + " " + "Hier ist der Link zu Moodle: <a onload='openWindow(`https://lms4schools.de/acslg/`);' onclick='openWindow(`https://lms4schools.de/acslg/`);'>Moodle</a>";
+        }
+        if (question.includes("leo") || question.includes("slg") || question.includes("schule") || question.includes("gymn")) {
+            answer = answer + " " + "Hier ist der Link zum SLG: <a onload='openWindow(`https://www.slg-aachen.de`);' onclick='openWindow(`https://www.slg-aachen.de`);'>SLG Aachen</a>";
+        }
+        if (question.includes("gedicht")) {
+            if (question.includes("tier") || question.includes("fisch") || question.includes("haus")) {
+                answer = answer + " " + poem(2);
+            } else if (question.includes("wolke") || question.includes("tal") || question.includes("natur") || question.includes("regen") || question.includes("bach")) {
+                answer = answer + " " + poem(3);
+            } else if (question.includes("hase") || question.includes("gras") || question.includes("wasser") || question.includes("glas")) {
+                answer = answer + " " + poem(1);
+            } else if (question.includes("berg") || question.includes("zwerg") || question.includes("fantasie") || question.includes("wande")) {
+                answer = answer + " " + poem(0);
+            } else {
+                answer = answer + " " + poem();
+            }
+        }
+        if (question == "was" || question == "was?") {
+            answer = answer + " " + "Deine Hose ist nass!";
+        }
+        if (question.includes("deine hose ist nas")) {
+            answer = answer + " " + "Haha!";
+        }
+        if (question.includes("wke") || question.includes("wieneke")) {
+            answer = "Dieser Inhalt ist nicht Jugendfrei und wird dir deshalb verweigert!";
+        }
+        if (question.includes("leer") || question.includes("clear")) {
+            chat.innerHTML = "";
+            answer = "Der Chat wurde geleert!";
+        }
+        if (question.includes("das ist")) {
+            answer = answer + " " + "Da bin ich mir nicht so sicher!";
+        }
+        if (answer == "") {
+            try {
+                answer = "Das Ergebnis lautet: " + eval(question);
+            } catch {
+                question.replace("/\s/g", "+");
+                answer = answer + " " + "Tut mir leid, aber ich kann dir gerade leider nicht folgen!<a onclick='openWindow(`https://swisscows.com/de/web?query=" + question + "`);'>Mit SwissCows suchen...</a>";
+            }
+        }
+
+        return answer;
+    }
+
+    function poem(selector="") {
+        let poems = [
+            "Es war einmal ein Zwerg. Der stand vor einem Berg. Er wollte nicht hinüber gehen. Deshalb blieb er unten stehen.",
+            "Ein Hase im hohen Gras ist wie ein Tropfen in einem Wasserglas.",
+            "Ein Fisch an Land ist wie ein Haus ohne Wand.",
+            "Die Wolke, die über den Himmel zog. Und höher als ein Vogel flog. Regnete über dem Tal dann ab. Und schwappte schnell den Bach hinab.",
+            ""
+        ];
+        if (selector == "") {
+            selector = Math.floor(Math.random()*4);
+        }
+        return poems[selector];
+    }
+
+    function jocke() {
+        let jockes = [
+            "Wiso kann ein Geist nicht lügen? Weil man ihn sofort durch schaut!",
+            "Wie nennt  man ein helles Mammut? Hellmut!",
+            "Was macht ein Pirat am Computer? Er drückt die Enter-Taste!"
+        ];
+        let selector = Math.floor(Math.random() * 3);
+
+        return jockes[selector];
+    }
+
+    function calculate(task) {
+    task = task.replace(/a/g, "");
+    task = task.replace(/b/g, "");
+    task = task.replace(/c/g, "");
+    task = task.replace(/d/g, "");
+    task = task.replace(/e/g, "");
+    task = task.replace(/f/g, "");
+    task = task.replace(/g/g, "");
+    task = task.replace(/h/g, "");
+    task = task.replace(/i/g, "");
+    task = task.replace(/j/g, "");
+    task = task.replace(/k/g, "");
+    task = task.replace(/l/g, "");
+    task = task.replace(/m/g, "");
+    task = task.replace(/n/g, "");
+    task = task.replace(/o/g, "");
+    task = task.replace(/p/g, "");
+    task = task.replace(/q/g, "");
+    task = task.replace(/r/g, "");
+    task = task.replace(/s/g, "");
+    task = task.replace(/t/g, "");
+    task = task.replace(/u/g, "");
+    task = task.replace(/v/g, "");
+    task = task.replace(/w/g, "");
+    task = task.replace(/x/g, "");
+    task = task.replace(/y/g, "");
+    task = task.replace(/z/g, "");
+    task = task.replace(/:/g, "");
+    task = task.replace(/!/g, "");
+    task = task.replace(/\?/g, "");
+    task = task.replace(/,/g, ".");
+    task = task.replace(/@/g, "");
+    task = task.replace(/#/g, "");
+    task = task.replace(/\|/g, "");
+    task = task.replace(/&/g, "");
+    task = task.replace(/_/g, "");
+    task = task.replace(/\s/g, "");
+    console.log(eval("5-50*5"));
+    return eval(task);
+    }
+
+    function posteQuestion() {
+        chat.innerHTML += "<div class='question'>" + message.value + "</div>";
+        question = message.value;
+        message.value = "";
+        window.location.href =  "#down";
+        setTimeout(
+            () => {
+                chat.innerHTML += "<div class='answer'>" + askMagic(question) + "</div>";
+                window.location.href =  "#down";
+            },
+            2000
+        );
+        saveChat();
+    }
+
+    function closeWindow() {
+        document.getElementById("iframe").style.display = "none";
+        document.getElementById("close_button").style.display = "none";
+    }
+    function openWindow(url) {
+        document.getElementById("iframe").src = url;
+        document.getElementById("iframe").style.display = "flex";
+        document.getElementById("close_button").style.display = "flex";
+    }
+    function saveChat() {
+        localStorage.setItem("chat", chat.innerHTML);
+    }
+    
+    function loadChat() {
+        chat.innerHTML = localStorage.getItem("chat");
+    }
+    
+    loadChat();
+    </script>
+    <script type="appliction/manifest+json">
+        {  "name": "Magic",  "short_name": "Magic",  "theme_color": "#000032",  "background_color": "#000032",  "display": "fullScreen",  "orientation": "portrait",  "scope": "/",  "start_url": "/"}
+    </script>
+    <div id="down"></div>
+</body>
+</html>    
